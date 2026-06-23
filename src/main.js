@@ -157,15 +157,17 @@ function initReveals() {
       scrollTrigger: { trigger: el, start: "top 90%" },
     });
   });
-  // parallax
-  $$("[data-parallax]").forEach((el) => {
-    const amt = parseFloat(el.dataset.parallax) || 12;
-    gsap.to(el, {
-      yPercent: amt,
-      ease: "none",
-      scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true },
+  // parallax (skip on small screens for smoother mobile scrolling)
+  if (window.innerWidth >= 768) {
+    $$("[data-parallax]").forEach((el) => {
+      const amt = parseFloat(el.dataset.parallax) || 12;
+      gsap.to(el, {
+        yPercent: amt,
+        ease: "none",
+        scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true },
+      });
     });
-  });
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -202,34 +204,42 @@ function initStory() {
   if (!story) return;
   const visuals = $$(".story__visual img", story);
   const chapters = $$(".story__chapter", story);
+  const dots = $$(".story__dot", story);
   if (!visuals.length || !chapters.length) return;
 
   const setActive = (i) => {
     visuals.forEach((v, k) => v.classList.toggle("is-active", k === i));
-    chapters.forEach((c, k) => c.classList.toggle("opacity-100", k === i) || c.classList.toggle("opacity-30", k !== i));
+    chapters.forEach((c, k) => {
+      c.classList.toggle("opacity-100", k === i);
+      c.classList.toggle("opacity-40", k !== i);
+    });
+    dots.forEach((d, k) => d.classList.toggle("is-active", k === i));
   };
   setActive(0);
 
   if (reduceMotion) { visuals[0].classList.add("is-active"); return; }
 
-  // pin the visual column while chapters scroll
+  // Chapter crossfade — runs on ALL viewports (mobile uses CSS sticky visual)
+  chapters.forEach((ch, i) => {
+    ScrollTrigger.create({
+      trigger: ch,
+      start: "top center",
+      end: "bottom center",
+      onToggle: (self) => { if (self.isActive) setActive(i); },
+    });
+  });
+
+  // Pin the visual column only on desktop (mobile relies on position: sticky)
   const mm = gsap.matchMedia();
   mm.add("(min-width: 768px)", () => {
-    ScrollTrigger.create({
+    const pin = ScrollTrigger.create({
       trigger: story,
       start: "top top",
       end: "bottom bottom",
       pin: ".story__visual-wrap",
       pinSpacing: false,
     });
-    chapters.forEach((ch, i) => {
-      ScrollTrigger.create({
-        trigger: ch,
-        start: "top center",
-        end: "bottom center",
-        onToggle: (self) => { if (self.isActive) setActive(i); },
-      });
-    });
+    return () => pin.kill();
   });
 }
 
@@ -254,6 +264,23 @@ function initCounters() {
         }),
     });
   });
+}
+
+/* ----------------------------------------------------------------
+   Scroll progress bar
+---------------------------------------------------------------- */
+function initProgress() {
+  const bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  document.body.appendChild(bar);
+  const update = () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    bar.style.width = p + "%";
+  };
+  if (lenis) lenis.on("scroll", update);
+  window.addEventListener("scroll", update, { passive: true });
+  update();
 }
 
 /* ----------------------------------------------------------------
@@ -292,6 +319,7 @@ function boot() {
   initMarquee();
   initStory();
   initCounters();
+  initProgress();
   initForm();
   const y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
