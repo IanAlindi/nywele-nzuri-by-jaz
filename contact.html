@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+  {{> head title="Contact & Booking — Nywele Nzuri by Jaz | Nairobi" desc="Book your appointment at Nywele Nzuri by Jaz. Call 0705186262 / 0713477122, message us on WhatsApp, or use our booking form. Open Mon–Sat, 8AM–7PM."}}
+</head>
+
+<body>
+  {{> header}}
+
+  <section class="page-hero">
+    <div class="absolute inset-0 bg-cover bg-center opacity-25" style="background-image:url('/assets/img/cta.jpg')"></div>
+    <div class="container-lux relative text-center py-28 md:py-36">
+      <h1 class="title-xl text-white">Contact <span class="text-gold-grad">&amp; Booking</span></h1>
+      <p class="mt-4 text-[12px] uppercase tracking-luxe text-gold-light">Home <span class="text-white/40 mx-2">/</span> Contact</p>
+    </div>
+  </section>
+
+  <section class="section bg-cream2">
+    <div class="container-lux grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
+      <div class="reveal">
+        <span class="eyebrow">Get in Touch</span>
+        <h2 class="title-lg mt-5 mb-5">We'd love to see you</h2>
+        <p class="text-muted mb-7">Prefer to talk? Reach us directly on WhatsApp or give us a call — otherwise fill in
+          the form and we'll be in touch to confirm your booking.</p>
+        <ul class="divide-y divide-line border-y border-line">
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">Call</span><span class="text-ink"><a href="tel:+254705186262" class="hover:text-gold">0705 186262</a> / <a href="tel:+254713477122" class="hover:text-gold">0713 477122</a></span></li>
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">Email</span><span class="text-ink"><a href="mailto:info@nywelenzuri.co.ke" class="hover:text-gold">info@nywelenzuri.co.ke</a></span></li>
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">WhatsApp</span><span class="text-ink"><a href="https://wa.me/254705186262" target="_blank" rel="noopener" class="hover:text-gold">Message us &rarr;</a></span></li>
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">Junction</span><span class="text-ink">4th Floor, The Junction Mall, Ngong Rd</span></li>
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">Lana Plaza</span><span class="text-ink">1st Floor, Lana Plaza, Oloitoktok Rd</span></li>
+          <li class="flex gap-4 py-3.5"><span class="w-28 shrink-0 text-[11px] uppercase tracking-luxe text-gold pt-1">Hours</span><span class="text-ink">Mon – Sat, 8:00 AM – 7:00 PM · Sun closed</span></li>
+        </ul>
+      </div>
+
+      <form id="bookingForm" novalidate class="bg-white border border-line rounded-[4px] p-7 md:p-10 shadow-luxe grid sm:grid-cols-2 gap-5 reveal">
+        <div class="flex flex-col">
+          <label for="name" class="text-[12px] uppercase tracking-wider2 text-ink mb-2">Full name</label>
+          <input id="name" name="name" type="text" required placeholder="Your name" class="bg-cream border border-line rounded-[2px] px-4 py-3 text-ink focus:outline-none focus:border-gold transition-colors" />
+        </div>
+        <div class="flex flex-col">
+          <label for="phone" class="text-[12px] uppercase tracking-wider2 text-ink mb-2">Phone</label>
+          <input id="phone" name="phone" type="tel" required placeholder="07xx xxx xxx" class="bg-cream border border-line rounded-[2px] px-4 py-3 text-ink focus:outline-none focus:border-gold transition-colors" />
+        </div>
+        <div class="flex flex-col">
+          <label for="service" class="text-[12px] uppercase tracking-wider2 text-ink mb-2">Service</label>
+          <select id="service" name="service" required class="bg-cream border border-line rounded-[2px] px-4 py-3 text-ink focus:outline-none focus:border-gold transition-colors">
+            <option value="" selected disabled>Choose a service</option>
+            <option>Barbershop</option><option>Hair Salon</option><option>Kids</option>
+            <option>Nail Bar</option><option>Spa</option><option>Wedding Lookbook</option><option>Other</option>
+          </select>
+        </div>
+        <div class="flex flex-col">
+          <label for="branch" class="text-[12px] uppercase tracking-wider2 text-ink mb-2">Preferred location</label>
+          <select id="branch" name="branch" class="bg-cream border border-line rounded-[2px] px-4 py-3 text-ink focus:outline-none focus:border-gold transition-colors">
+            <option>The Junction Mall</option><option>Lana Plaza</option>
+          </select>
+        </div>
+        <div class="flex flex-col sm:col-span-2">
+          <label for="message" class="text-[12px] uppercase tracking-wider2 text-ink mb-2">Message (optional)</label>
+          <textarea id="message" name="message" rows="3" placeholder="Tell us your preferred date & time" class="bg-cream border border-line rounded-[2px] px-4 py-3 text-ink focus:outline-none focus:border-gold transition-colors resize-y"></textarea>
+        </div>
+        <button type="submit" class="btn sm:col-span-2 justify-self-start">Request Appointment</button>
+        <p id="formNote" hidden class="sm:col-span-2 m-0 px-4 py-3 rounded-[2px] bg-[#eef6ee] text-[#2f6b34] text-sm"></p>
+      </form>
+    </div>
+  </section>
+
+  {{> footer}}
+</body>
+
+</html>

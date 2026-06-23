@@ -1,0 +1,23 @@
+{
+  "name": "nywele-nzuri-lux",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Nywele Nzuri by Jaz — ultra-luxury salon, barbershop & spa website",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4300"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.11",
+    "vite-plugin-handlebars": "^2.0.0"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.18"
+  }
+}

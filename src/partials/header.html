@@ -1,0 +1,47 @@
+<!-- Top bar -->
+<div class="topbar">
+  <div class="container-lux flex items-center justify-between h-[42px]">
+    <span class="hidden sm:inline text-[11px] uppercase tracking-luxe text-gold.light text-gold">Where executive beauty meets every generation</span>
+    <div class="flex items-center gap-3 ml-auto">
+      <a href="tel:+254705186262" class="hover:text-white transition-colors">0705 186262</a>
+      <span class="text-[#5a5249]">&middot;</span>
+      <a href="tel:+254713477122" class="hover:text-white transition-colors">0713 477122</a>
+      <span class="hidden sm:flex gap-4 ml-3 pl-4 border-l border-[#3a342d]">
+        <a href="https://web.facebook.com/nywelenzuri/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>
+        <a href="https://www.instagram.com/nywelenzuribyjaz/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Instagram</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="header" class="sticky top-0 z-[100] bg-black2/90 backdrop-blur-md border-b border-gold/15 transition-shadow duration-300 [&.is-stuck]:shadow-[0_12px_34px_-18px_rgba(0,0,0,.65)]">
+  <div class="container-lux flex items-center justify-between h-[88px]">
+    <a href="/" class="flex items-center" aria-label="Nywele Nzuri by Jaz home">
+      <img src="/assets/img/logo.png" alt="Nywele Nzuri by Jaz" class="h-14 w-auto"
+           onerror="this.onerror=null;this.src='/assets/img/logo.svg'" />
+    </a>
+
+    <nav id="nav" class="nav flex items-center gap-8
+         max-[900px]:fixed max-[900px]:top-0 max-[900px]:right-0 max-[900px]:h-screen max-[900px]:w-[min(320px,84vw)]
+         max-[900px]:flex-col max-[900px]:items-start max-[900px]:gap-1 max-[900px]:bg-black2 max-[900px]:pt-24 max-[900px]:px-9
+         max-[900px]:shadow-luxe max-[900px]:translate-x-full max-[900px]:transition-transform max-[900px]:duration-300
+         [&.is-open]:translate-x-0 z-[110]">
+      <button id="navClose" class="hidden max-[900px]:block absolute top-6 right-7 text-3xl text-gold" aria-label="Close menu">&times;</button>
+      <a href="/" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isHome}}nav-active{{/if}}">Home</a>
+      <a href="/about.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isAbout}}nav-active{{/if}}">About</a>
+      <a href="/services.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isServices}}nav-active{{/if}}">Services</a>
+      <a href="/gallery.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isGallery}}nav-active{{/if}}">Gallery</a>
+      <a href="/locations.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isLocations}}nav-active{{/if}}">Locations</a>
+      <a href="/products.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isProducts}}nav-active{{/if}}">Products</a>
+      <a href="/contact.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isContact}}nav-active{{/if}}">Contact</a>
+      <a href="https://wa.me/254705186262" target="_blank" rel="noopener" class="btn btn-sm !text-[#20180a] max-[900px]:mt-4 max-[900px]:w-full max-[900px]:justify-center">Book Now</a>
+    </nav>
+
+    <button id="navToggle" class="hidden max-[900px]:flex flex-col gap-[5px] w-7" aria-label="Open menu">
+      <span class="h-0.5 w-full bg-gold"></span>
+      <span class="h-0.5 w-full bg-gold"></span>
+      <span class="h-0.5 w-full bg-gold"></span>
+    </button>
+  </div>
+</header>
