@@ -135,9 +135,9 @@ function initIntro() {
 function initReveals() {
   if (reduceMotion) { $$(".reveal").forEach((e) => e.classList.add("is-in")); return; }
   ScrollTrigger.batch(".reveal", {
-    start: "top 86%",
+    start: "top 90%",
     onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.95, ease: "power3.out", stagger: 0.12, overwrite: true }),
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.07, overwrite: true }),
   });
   // clip image reveals
   $$(".clip-img").forEach((img) => {
