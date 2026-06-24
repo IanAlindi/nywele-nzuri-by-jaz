@@ -210,6 +210,43 @@
 /* ---------- Full-bleed pull-quote ---------- */
 .pullquote { font-family: theme('fontFamily.serif'); font-style: italic; line-height: 1.18; }
 
+/* ---------- Interactive Locations panel ---------- */
+.loc-panel { position: relative; display: flex; flex-direction: column; background: linear-gradient(158deg, #1b1712 0%, #0d0b09 70%); border: 1px solid rgba(216,189,126,.18); border-radius: 6px; padding: 1.6rem; min-height: 430px; box-shadow: var(--shadow); overflow: hidden; }
+@media (min-width: 1024px) { .loc-panel { min-height: 520px; padding: 2.1rem; } }
+.loc-panel__head { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.loc-status { display: inline-flex; align-items: center; gap: .5rem; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #cfc7bd; border: 1px solid rgba(216,189,126,.25); border-radius: 999px; padding: .42rem .72rem; white-space: nowrap; }
+.loc-status__dot { width: 7px; height: 7px; border-radius: 50%; background: #8a8278; }
+.loc-status.is-open .loc-status__dot { background: #4fce72; animation: locpulse 2s infinite; }
+@keyframes locpulse { 0% { box-shadow: 0 0 0 0 rgba(79,206,114,.55); } 70% { box-shadow: 0 0 0 7px rgba(79,206,114,0); } 100% { box-shadow: 0 0 0 0 rgba(79,206,114,0); } }
+
+.loc-stage { position: relative; flex: 1; margin: 1.1rem 0 1.3rem; min-height: 165px; }
+.loc-map { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
+.loc-route { animation: locroute 7s linear infinite; }
+@keyframes locroute { to { stroke-dashoffset: -20; } }
+.loc-bigword { position: absolute; right: 0; bottom: -.3rem; font-family: theme('fontFamily.serif'); font-style: italic; color: rgba(255,255,255,.10); font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: .9; pointer-events: none; user-select: none; }
+
+.loc-pin { position: absolute; transform: translate(-50%, -50%); width: 16px; height: 16px; cursor: pointer; background: none; border: 0; }
+.loc-pin__dot { position: absolute; inset: 0; margin: auto; width: 13px; height: 13px; border-radius: 50%; background: theme('colors.gold.light'); border: 2px solid #0d0b09; transition: all .3s theme('transitionTimingFunction.lux'); }
+.loc-pin__ping { position: absolute; inset: 0; margin: auto; width: 13px; height: 13px; border-radius: 50%; background: rgba(216,189,126,.45); }
+.loc-pin.is-active .loc-pin__ping { animation: locping 1.9s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes locping { 0% { transform: scale(1); opacity: .6; } 80%,100% { transform: scale(3.4); opacity: 0; } }
+.loc-pin.is-active .loc-pin__dot { background: #fff; box-shadow: 0 0 14px rgba(216,189,126,.9); }
+.loc-pin__label { position: absolute; left: 50%; top: -25px; transform: translateX(-50%); white-space: nowrap; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #efe7d6; opacity: .55; transition: all .3s; }
+.loc-pin.is-active .loc-pin__label { opacity: 1; color: theme('colors.gold.light'); }
+.loc-pin:hover .loc-pin__label { opacity: 1; }
+
+.loc-tabs { display: flex; gap: 1.4rem; border-bottom: 1px solid rgba(216,189,126,.15); margin-bottom: 1rem; }
+.loc-tab { position: relative; padding: .5rem 0; font-size: 13px; letter-spacing: .06em; color: #9a9088; background: none; border: 0; cursor: pointer; transition: color .3s; }
+.loc-tab:hover { color: #cfc7bd; }
+.loc-tab.is-active { color: #fff; }
+.loc-tab.is-active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: theme('colors.gold.DEFAULT'); }
+.loc-name { font-family: theme('fontFamily.serif'); font-size: 1.7rem; color: #fff; line-height: 1.1; }
+.loc-addr { color: #b6ada2; font-size: .95rem; margin-top: .3rem; }
+.loc-row { display: flex; gap: 1.5rem; align-items: center; margin-top: 1.05rem; font-size: .9rem; }
+.loc-row a { color: theme('colors.gold.light'); letter-spacing: .03em; transition: color .25s; }
+.loc-row a:hover { color: #fff; }
+.loc-fade { transition: opacity .3s ease; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
   .line-mask > * { transform: none !important; }

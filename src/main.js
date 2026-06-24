@@ -332,6 +332,64 @@ function initCounters() {
 }
 
 /* ----------------------------------------------------------------
+   Interactive locations panel (selectable pins + live open status)
+---------------------------------------------------------------- */
+function initLocations() {
+  const panel = document.getElementById("locPanel");
+  if (!panel) return;
+  const data = [
+    { name: "The Junction Mall", addr: "4th Floor · Ngong Road, Nairobi", tel: "+254705186262", disp: "0705 186262", map: "https://www.google.com/maps/search/Nywele+Nzuri+Junction+Mall+Nairobi" },
+    { name: "Lana Plaza", addr: "1st Floor · Oloitoktok Road, Nairobi", tel: "+254713477122", disp: "0713 477122", map: "https://www.google.com/maps/search/Lana+Plaza+Oloitoktok+Road+Nairobi" },
+  ];
+  const pins = [...panel.querySelectorAll(".loc-pin")];
+  const tabs = [...panel.querySelectorAll(".loc-tab")];
+  const fade = panel.querySelector(".loc-fade");
+  const nameEl = panel.querySelector("#locName");
+  const addrEl = panel.querySelector("#locAddr");
+  const phoneEl = panel.querySelector("#locPhone");
+  const mapEl = panel.querySelector("#locMap");
+  let current = 0;
+
+  function select(i) {
+    if (i === current) return;
+    current = i;
+    pins.forEach((p, k) => { p.classList.toggle("is-active", k === i); p.setAttribute("aria-pressed", String(k === i)); });
+    tabs.forEach((t, k) => { t.classList.toggle("is-active", k === i); t.setAttribute("aria-pressed", String(k === i)); });
+    const d = data[i];
+    if (fade) fade.style.opacity = "0";
+    setTimeout(() => {
+      nameEl.textContent = d.name;
+      addrEl.textContent = d.addr;
+      phoneEl.textContent = d.disp;
+      phoneEl.href = "tel:" + d.tel;
+      mapEl.href = d.map;
+      if (fade) fade.style.opacity = "1";
+    }, 180);
+  }
+  pins.forEach((p, i) => p.addEventListener("click", () => select(i)));
+  tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+
+  // Live "open now" + Nairobi time
+  const statusEl = panel.querySelector("#locStatus");
+  const statusText = panel.querySelector("#locStatusText");
+  function tick() {
+    try {
+      const now = new Date();
+      const time = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Nairobi", hour: "2-digit", minute: "2-digit", hour12: false }).format(now);
+      const wd = new Intl.DateTimeFormat("en-US", { timeZone: "Africa/Nairobi", weekday: "short" }).format(now);
+      const hour = parseInt(time.split(":")[0], 10);
+      const open = wd !== "Sun" && hour >= 8 && hour < 19;
+      statusEl.classList.toggle("is-open", open);
+      statusText.textContent = (open ? "Open now" : "Closed") + " · Nairobi " + time;
+    } catch (e) {
+      statusText.textContent = "Mon – Sat · 8AM – 7PM";
+    }
+  }
+  tick();
+  setInterval(tick, 30000);
+}
+
+/* ----------------------------------------------------------------
    Scroll progress bar
 ---------------------------------------------------------------- */
 function initProgress() {
@@ -390,6 +448,7 @@ function boot() {
   initMarquee();
   initStory();
   initLookbook();
+  initLocations();
   initCounters();
   initProgress();
   initForm();

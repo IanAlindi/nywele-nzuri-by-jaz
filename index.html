@@ -58,16 +58,43 @@
   <!-- ============ INTRO / ABOUT ============ -->
   <section id="intro" class="section">
     <div class="container-lux grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <div class="relative mb-10 lg:mb-0">
-        <div class="overflow-hidden rounded-[3px] shadow-luxe">
-          <img loading="lazy" decoding="async" src="/assets/img/about-1.jpg" alt="Inside Nywele Nzuri by Jaz" class="clip-img w-full h-[340px] sm:h-[460px] lg:h-[520px] object-cover" />
+      <!-- Interactive locations panel -->
+      <div class="loc-panel reveal" id="locPanel">
+        <div class="loc-panel__head">
+          <span class="eyebrow text-gold-light">Two Locations in Nairobi</span>
+          <span class="loc-status" id="locStatus"><span class="loc-status__dot"></span><span id="locStatusText">Checking hours…</span></span>
         </div>
-        <div class="absolute -bottom-8 -right-4 w-44 hidden lg:block overflow-hidden rounded-[3px] border-8 border-cream shadow-luxe">
-          <img loading="lazy" decoding="async" src="/assets/img/about-2.jpg" alt="Styling at Nywele Nzuri" class="w-full h-40 object-cover" />
+
+        <div class="loc-stage">
+          <svg class="loc-map" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <g stroke="rgba(216,189,126,0.13)" stroke-width="0.35" fill="none">
+              <path d="M0,22 L100,34" /><path d="M0,72 L100,60" /><path d="M0,48 L100,45" />
+              <path d="M28,0 L40,100" /><path d="M74,0 L66,100" /><path d="M52,0 L54,100" />
+            </g>
+            <path class="loc-route" d="M26,38 C42,28 56,76 70,64" stroke="rgba(216,189,126,0.65)" stroke-width="0.6" fill="none" stroke-dasharray="2.5 2.5" />
+          </svg>
+          <button class="loc-pin is-active" data-loc="0" style="left:26%;top:38%" aria-label="The Junction Mall" aria-pressed="true">
+            <span class="loc-pin__ping"></span><span class="loc-pin__dot"></span><span class="loc-pin__label">Junction Mall</span>
+          </button>
+          <button class="loc-pin" data-loc="1" style="left:70%;top:64%" aria-label="Lana Plaza" aria-pressed="false">
+            <span class="loc-pin__ping"></span><span class="loc-pin__dot"></span><span class="loc-pin__label">Lana Plaza</span>
+          </button>
+          <span class="loc-bigword">Nairobi</span>
         </div>
-        <div class="absolute left-3 top-3 sm:left-4 sm:top-6 lg:-left-4 bg-gold text-[#20180a] rounded-[3px] px-4 py-3 sm:px-5 sm:py-4 flex items-center gap-3 shadow-luxe">
-          <span class="font-serif text-3xl sm:text-4xl leading-none">2</span>
-          <span class="text-[11px] uppercase tracking-wider2 leading-tight">Locations<br />in Nairobi</span>
+
+        <div class="loc-detail">
+          <div class="loc-tabs">
+            <button class="loc-tab is-active" data-loc="0" aria-pressed="true">Junction Mall</button>
+            <button class="loc-tab" data-loc="1" aria-pressed="false">Lana Plaza</button>
+          </div>
+          <div class="loc-fade">
+            <h3 class="loc-name" id="locName">The Junction Mall</h3>
+            <p class="loc-addr" id="locAddr">4th Floor &middot; Ngong Road, Nairobi</p>
+            <div class="loc-row">
+              <a id="locPhone" href="tel:+254705186262">0705 186262</a>
+              <a id="locMap" href="https://www.google.com/maps/search/Nywele+Nzuri+Junction+Mall+Nairobi" target="_blank" rel="noopener">Directions &rarr;</a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="reveal">

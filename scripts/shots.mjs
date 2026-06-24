@@ -23,6 +23,8 @@ async function shoot(name, w, h, opts = {}) {
   await page.close();
 }
 
+await shoot("desk-intro", 1280, 820, { selector: "#intro" });
+await shoot("mob-intro", 390, 844, { selector: "#intro" });
 await shoot("desk-hero", 1280, 820, {});
 await shoot("desk-lookbook", 1280, 820, { selector: "#lookbook" });
 await shoot("desk-full", 1280, 820, { full: true });
