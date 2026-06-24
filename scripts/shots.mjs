@@ -27,6 +27,8 @@ async function shoot(name, w, h, opts = {}) {
   await page.close();
 }
 
+await shoot("gallery-mob", 390, 844, { path: "/gallery.html", full: true });
+await shoot("gallery-desk", 1280, 900, { path: "/gallery.html", full: true });
 await shoot("story-desk", 1280, 800, { motion: true, scrollSel: "#story" });
 await shoot("story-mob", 390, 800, { motion: true, scrollSel: "#story" });
 await shoot("desk-motion-hero", 1280, 820, { motion: true });

@@ -285,6 +285,17 @@ html:not(.js-ready) .curtain { animation: curtainOut .7s cubic-bezier(.22,1,.36,
 .lightbox__count { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: theme('colors.gold.light'); }
 @media (max-width: 640px) { .lightbox__nav.prev { left: .5rem; } .lightbox__nav.next { right: .5rem; } .lightbox__btn { width: 42px; height: 42px; } }
 
+/* ---------- Editorial gallery ---------- */
+.gallery-item { position: relative; display: block; width: 100%; overflow: hidden; border-radius: 5px; margin-bottom: .65rem; cursor: pointer; background: var(--cream2); }
+@media (min-width: 1024px) { .gallery-item { margin-bottom: 1rem; } }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.1s theme('transitionTimingFunction.lux'), filter .6s ease; }
+.gallery-item:hover img { transform: scale(1.06); }
+.gal-cap { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: .85rem .95rem; background: linear-gradient(to top, rgba(13,11,9,.62) 0%, rgba(13,11,9,.05) 42%, transparent 70%); }
+.gal-cap__cat { font-family: theme('fontFamily.sans'); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #fff; display: inline-flex; align-items: center; gap: .5rem; }
+.gal-cap__cat::before { content: ""; width: 14px; height: 1px; background: theme('colors.gold.light'); transition: width .4s theme('transitionTimingFunction.lux'); }
+.gallery-item:hover .gal-cap__cat { color: theme('colors.gold.light'); }
+.gallery-item:hover .gal-cap__cat::before { width: 26px; }
+
 /* ---------- Contact success + focus glow ---------- */
 .field input:focus, .field select:focus, .field textarea:focus,
 .field-input:focus { box-shadow: 0 0 0 3px rgba(187,149,64,.18); }
