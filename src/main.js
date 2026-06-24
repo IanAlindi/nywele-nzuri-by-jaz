@@ -71,6 +71,8 @@ function initCursor() {
   const ring = document.createElement("div");
   dot.className = "cursor-dot";
   ring.className = "cursor-ring";
+  ring.innerHTML = '<span class="cursor__label"></span>';
+  const label = ring.querySelector(".cursor__label");
   document.body.append(dot, ring);
   let rx = 0, ry = 0, x = 0, y = 0;
   window.addEventListener("mousemove", (e) => {
@@ -83,10 +85,73 @@ function initCursor() {
   });
   const hoverables = "a, button, .card-service, .gallery-item, input, select, textarea";
   document.addEventListener("mouseover", (e) => {
+    const cv = e.target.closest("[data-cursor]");
+    if (cv) { ring.classList.add("is-view"); label.textContent = cv.getAttribute("data-cursor") || "View"; return; }
     if (e.target.closest(hoverables)) ring.classList.add("is-hover");
   });
   document.addEventListener("mouseout", (e) => {
+    if (e.target.closest("[data-cursor]")) { ring.classList.remove("is-view"); label.textContent = ""; }
     if (e.target.closest(hoverables)) ring.classList.remove("is-hover");
+  });
+}
+
+/* ----------------------------------------------------------------
+   Magnetic buttons (subtle luxury microinteraction)
+---------------------------------------------------------------- */
+function initMagnetic() {
+  if (window.matchMedia("(hover: none)").matches || reduceMotion) return;
+  $$(".btn, .fab").forEach((el) => {
+    const strength = el.classList.contains("fab") ? 0.3 : 0.38;
+    el.addEventListener("mousemove", (e) => {
+      const r = el.getBoundingClientRect();
+      const mx = e.clientX - (r.left + r.width / 2);
+      const my = e.clientY - (r.top + r.height / 2);
+      gsap.to(el, { x: mx * strength, y: my * strength, duration: 0.4, ease: "power3.out" });
+    });
+    el.addEventListener("mouseleave", () => gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" }));
+  });
+}
+
+/* ----------------------------------------------------------------
+   Signature horizontal Lookbook (desktop pin / mobile swipe-snap)
+---------------------------------------------------------------- */
+function initLookbook() {
+  const sec = document.getElementById("lookbook");
+  if (!sec) return;
+  const track = sec.querySelector(".lookbook__track");
+  const vp = sec.querySelector(".lookbook__viewport");
+  if (!track || !vp) return;
+
+  // Force-load the cards as the section approaches — lazy-loading is unreliable
+  // for horizontally translated (transformed) content, so kick the fetch manually.
+  const imgs = [...track.querySelectorAll("img")];
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      imgs.forEach((im) => { im.loading = "eager"; const s = im.getAttribute("src"); if (s) im.setAttribute("src", s); });
+      io.disconnect();
+    }
+  }, { rootMargin: "700px 0px" });
+  io.observe(sec);
+
+  if (reduceMotion) return; // mobile + reduced-motion keep native horizontal swipe
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 768px)", () => {
+    vp.style.overflow = "hidden";
+    const dist = () => Math.max(0, track.scrollWidth - vp.clientWidth);
+    const tween = gsap.to(track, {
+      x: () => -dist(),
+      ease: "none",
+      scrollTrigger: {
+        trigger: sec,
+        start: "top top",
+        end: () => "+=" + dist(),
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+    return () => { tween.kill(); vp.style.overflow = ""; };
   });
 }
 
@@ -135,9 +200,9 @@ function initIntro() {
 function initReveals() {
   if (reduceMotion) { $$(".reveal").forEach((e) => e.classList.add("is-in")); return; }
   ScrollTrigger.batch(".reveal", {
-    start: "top 90%",
+    start: "top 88%",
     onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.07, overwrite: true }),
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.85, ease: "power4.out", stagger: 0.09, overwrite: true }),
   });
   // clip image reveals
   $$(".clip-img").forEach((img) => {
@@ -311,13 +376,20 @@ function initForm() {
    Boot
 ---------------------------------------------------------------- */
 function boot() {
+  // film grain texture
+  const grain = document.createElement("div");
+  grain.className = "grain";
+  document.body.appendChild(grain);
+
   initLenis();
   initCursor();
+  initMagnetic();
   initHeader();
   initReveals();
   initHeroParallax();
   initMarquee();
   initStory();
+  initLookbook();
   initCounters();
   initProgress();
   initForm();

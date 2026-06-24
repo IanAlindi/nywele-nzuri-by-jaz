@@ -180,8 +180,39 @@
   .story__visual img { border-radius: 4px; }
 }
 
+/* ---------- Film grain (tactile luxury texture) ---------- */
+.grain {
+  position: fixed; inset: 0; z-index: 185; pointer-events: none; opacity: .045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ---------- Cursor "view" label ---------- */
+.cursor-ring { display: grid; place-items: center; }
+.cursor-ring .cursor__label { font-family: theme('fontFamily.sans'); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #fff; opacity: 0; transition: opacity .25s ease; }
+.cursor-ring.is-view { width: 76px; height: 76px; background: rgba(187,149,64,.92); border-color: transparent; mix-blend-mode: normal; }
+.cursor-ring.is-view .cursor__label { opacity: 1; }
+
+/* ---------- Signature Lookbook (horizontal) ---------- */
+.lookbook__viewport { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.lookbook__viewport::-webkit-scrollbar { display: none; }
+.lookbook__track { display: flex; gap: 1.25rem; width: max-content; will-change: transform; padding-inline: 1.5rem; }
+@media (min-width: 768px) { .lookbook__track { padding-inline: 2.5rem; gap: 1.75rem; } }
+.lookbook__card { position: relative; flex: 0 0 auto; width: 80vw; height: 62vh; border-radius: 4px; overflow: hidden; scroll-snap-align: center; box-shadow: var(--shadow); }
+@media (min-width: 640px) { .lookbook__card { width: 56vw; } }
+@media (min-width: 768px) { .lookbook__card { width: 30vw; height: 74vh; } }
+.lookbook__card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s theme('transitionTimingFunction.lux'); }
+.lookbook__card:hover img { transform: scale(1.07); }
+.lookbook__num { position: absolute; top: 1.25rem; left: 1.5rem; font-family: theme('fontFamily.serif'); font-size: 14px; letter-spacing: .25em; color: rgba(255,255,255,.85); }
+.lookbook__cap { position: absolute; left: 0; bottom: 0; padding: 1.75rem 1.5rem; }
+
+/* ---------- Full-bleed pull-quote ---------- */
+.pullquote { font-family: theme('fontFamily.serif'); font-style: italic; line-height: 1.18; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
   .line-mask > * { transform: none !important; }
   .clip-img { clip-path: none !important; }
+  .grain { display: none; }
 }

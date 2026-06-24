@@ -183,22 +183,67 @@
     </div>
   </section>
 
-  <!-- ============ GALLERY PREVIEW ============ -->
+  <!-- ============ PULL QUOTE (quiet luxury pause) ============ -->
   <section class="section">
-    <div class="container-lux">
-      <div class="text-center max-w-2xl mx-auto mb-14 reveal">
-        <span class="eyebrow eyebrow-center">Gallery</span>
-        <h2 class="title-lg mt-5">Moments at the Salon</h2>
+    <div class="container-lux max-w-4xl text-center">
+      <span class="eyebrow eyebrow-center reveal">Our Promise</span>
+      <p class="pullquote text-[clamp(1.7rem,4.4vw,3.4rem)] text-ink mt-6 reveal">
+        &ldquo;Where <span class="text-gold-grad not-italic">executive beauty</span> meets every generation.&rdquo;
+      </p>
+      <p class="lead mt-6 reveal">A friendly, personal and attentive experience &mdash; delivered by a highly talented team that truly makes us one of a kind.</p>
+    </div>
+  </section>
+
+  <!-- ============ LOOKBOOK (signature horizontal scroll) ============ -->
+  <section id="lookbook" class="relative bg-ink text-white py-16 md:py-0 md:h-screen md:flex md:flex-col md:justify-center overflow-hidden">
+    <div class="container-lux mb-8 md:mb-10">
+      <div class="reveal">
+        <span class="eyebrow text-gold-light">The Lookbook</span>
+        <h2 class="title-lg text-white mt-4">A scroll through the salon</h2>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g1.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g2.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g6.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g3.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g5.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
-        <figure class="gallery-item overflow-hidden rounded-[3px] aspect-[4/5] reveal"><img loading="lazy" decoding="async" src="/assets/img/gallery/g8.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 ease-lux hover:scale-110" /></figure>
+    </div>
+    <div class="lookbook__viewport snap-x snap-mandatory md:snap-none">
+      <div class="lookbook__track">
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/hair.jpg" alt="Hair styling" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">01</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Hair Salon</h3><p class="text-white/70 text-sm mt-1">Every texture, every style</p></div>
+        </article>
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/barbershop.jpg" alt="Barbershop" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">02</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Barbershop</h3><p class="text-white/70 text-sm mt-1">Bespoke cuts &amp; grooming</p></div>
+        </article>
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/nails.jpg" alt="Nail bar" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">03</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Nail Bar</h3><p class="text-white/70 text-sm mt-1">Gel, acrylics &amp; nail art</p></div>
+        </article>
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/spa.jpg" alt="Spa" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">04</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Spa</h3><p class="text-white/70 text-sm mt-1">Facials &amp; full-body massage</p></div>
+        </article>
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/wedding.jpg" alt="Bridal" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">05</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Wedding Lookbook</h3><p class="text-white/70 text-sm mt-1">Camera-ready elegance</p></div>
+        </article>
+        <article class="lookbook__card" data-cursor="View">
+          <img loading="lazy" decoding="async" src="/assets/img/services/kids.jpg" alt="Kids" />
+          <div class="absolute inset-0 ph-overlay-soft"></div>
+          <span class="lookbook__num">06</span>
+          <div class="lookbook__cap"><h3 class="text-2xl text-white">Kids</h3><p class="text-white/70 text-sm mt-1">A soft, tender approach</p></div>
+        </article>
       </div>
-      <div class="text-center mt-12 reveal"><a href="/gallery.html" class="btn btn-outline">View Full Gallery</a></div>
+    </div>
+    <div class="container-lux mt-8 md:mt-12 reveal">
+      <a href="/gallery.html" class="btn btn-ghost">View Full Gallery</a>
     </div>
   </section>
 
