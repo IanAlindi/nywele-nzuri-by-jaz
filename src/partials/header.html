@@ -25,8 +25,9 @@
     <nav id="nav" class="nav flex items-center gap-8
          max-[900px]:fixed max-[900px]:top-0 max-[900px]:right-0 max-[900px]:h-screen max-[900px]:w-[min(320px,84vw)]
          max-[900px]:flex-col max-[900px]:items-start max-[900px]:gap-1 max-[900px]:bg-black2 max-[900px]:pt-24 max-[900px]:px-9
-         max-[900px]:shadow-luxe max-[900px]:translate-x-full max-[900px]:transition-transform max-[900px]:duration-300
-         [&.is-open]:translate-x-0 z-[110]">
+         max-[900px]:shadow-luxe max-[900px]:translate-x-full max-[900px]:invisible
+         max-[900px]:[transition:transform_.35s_cubic-bezier(.22,1,.36,1),visibility_.35s] max-[900px]:duration-300
+         [&.is-open]:translate-x-0 max-[900px]:[&.is-open]:visible z-[110]">
       <button id="navClose" class="hidden max-[900px]:block absolute top-6 right-7 text-3xl text-gold" aria-label="Close menu">&times;</button>
       <a href="/" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isHome}}nav-active{{/if}}">Home</a>
       <a href="/about.html" class="nav-link max-[900px]:w-full max-[900px]:py-2.5 max-[900px]:text-lg max-[900px]:border-b max-[900px]:border-gold/15 {{#if isAbout}}nav-active{{/if}}">About</a>

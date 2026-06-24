@@ -9,9 +9,17 @@
   html {
     -webkit-font-smoothing: antialiased;
     scroll-behavior: auto; /* Lenis controls scrolling */
+    overflow-x: clip; /* stop horizontal scroll to the off-canvas drawer (clip keeps sticky + Lenis working) */
   }
   body {
     @apply bg-cream text-ink/80 font-sans font-light leading-relaxed;
+    position: relative;
+    width: 100%;
+    overflow-x: clip;
+  }
+  /* Fallback for browsers without overflow:clip (older iOS Safari) */
+  @supports not (overflow: clip) {
+    html { overflow-x: hidden; }
   }
   /* Lenis */
   html.lenis,
