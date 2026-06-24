@@ -101,44 +101,37 @@
     </div>
   </section>
 
-  <!-- ============ SCROLLYTELLING STORY (desktop pin + mobile sticky) ============ -->
-  <section id="story" class="relative bg-ink text-white overflow-hidden">
-    <div class="container-lux grid md:grid-cols-2 md:gap-16">
-      <!-- visual: pinned on desktop, sticky on mobile -->
-      <div class="story__visual-wrap self-start sticky top-[88px] md:top-0 md:static z-0">
-        <div class="story__visual relative h-[42vh] sm:h-[52vh] md:h-screen md:py-16">
-          <img loading="lazy" decoding="async" src="/assets/img/story-1.jpg" alt="The cut" class="is-active rounded-[3px]" />
-          <img loading="lazy" decoding="async" src="/assets/img/story-2.jpg" alt="The colour" class="rounded-[3px]" />
-          <img loading="lazy" decoding="async" src="/assets/img/story-3.jpg" alt="The calm" class="rounded-[3px]" />
-          <div class="absolute inset-0 md:inset-y-16 ph-overlay-soft rounded-[3px] pointer-events-none"></div>
-          <!-- chapter progress dots -->
-          <div class="story__dots absolute right-4 bottom-4 md:right-6 md:bottom-24 flex md:flex-col gap-2.5 z-10">
-            <span class="story__dot is-active"></span>
-            <span class="story__dot"></span>
-            <span class="story__dot"></span>
-          </div>
-        </div>
+  <!-- ============ CINEMATIC STORY (pinned crossfade — same on mobile & desktop) ============ -->
+  <section id="story" class="story-seq relative bg-ink text-white">
+    <div class="story-seq__pin">
+      <div class="story-seq__bg">
+        <img class="is-active" src="/assets/img/story-1.jpg" alt="The cut" />
+        <img src="/assets/img/story-2.jpg" alt="The colour" />
+        <img src="/assets/img/story-3.jpg" alt="The calm" />
       </div>
-      <!-- chapters -->
-      <div class="story__chapters relative z-10">
-        <article class="story__chapter min-h-[78vh] md:min-h-screen flex flex-col justify-center py-12 md:py-14 transition-opacity duration-500">
-          <span class="eyebrow text-gold-light">Chapter I</span>
-          <h2 class="title-lg text-white mt-4 mb-5">The Cut</h2>
-          <p class="text-white/75 max-w-md text-lg">From the ultra-modern gentleman to the confident big chop — our
-            barbers deliver bespoke cuts, exquisite styling and grooming that's a complete lifestyle experience.</p>
-        </article>
-        <article class="story__chapter min-h-[78vh] md:min-h-screen flex flex-col justify-center py-12 md:py-14 transition-opacity duration-500">
-          <span class="eyebrow text-gold-light">Chapter II</span>
-          <h2 class="title-lg text-white mt-4 mb-5">The Colour</h2>
-          <p class="text-white/75 max-w-md text-lg">Life isn't perfect, but your hair can be. From straight to natural
-            to locked hair, we celebrate every texture — turning ordinary into extraordinary.</p>
-        </article>
-        <article class="story__chapter min-h-[78vh] md:min-h-screen flex flex-col justify-center py-12 md:py-14 transition-opacity duration-500">
-          <span class="eyebrow text-gold-light">Chapter III</span>
-          <h2 class="title-lg text-white mt-4 mb-5">The Calm</h2>
-          <p class="text-white/75 max-w-md text-lg">A serene, peaceful and luxurious environment — from deep-cleansing
-            facials to intensive full-body massages, dedicated entirely to your relaxation.</p>
-        </article>
+      <div class="story-seq__veil"></div>
+      <div class="container-lux story-seq__inner">
+        <div class="story-seq__chapters">
+          <article class="story-seq__chapter is-active">
+            <span class="eyebrow text-gold-light">Chapter I &mdash; Barbershop</span>
+            <h2 class="title-lg text-white mt-3 mb-4">The Cut</h2>
+            <p class="text-white/80 max-w-lg text-lg">From the ultra-modern gentleman to the confident big chop &mdash; our barbers deliver bespoke cuts, exquisite styling and grooming that's a complete lifestyle experience.</p>
+          </article>
+          <article class="story-seq__chapter">
+            <span class="eyebrow text-gold-light">Chapter II &mdash; Hair Salon</span>
+            <h2 class="title-lg text-white mt-3 mb-4">The Colour</h2>
+            <p class="text-white/80 max-w-lg text-lg">Life isn't perfect, but your hair can be. From straight to natural to locked hair, we celebrate every texture &mdash; turning ordinary into extraordinary.</p>
+          </article>
+          <article class="story-seq__chapter">
+            <span class="eyebrow text-gold-light">Chapter III &mdash; Spa</span>
+            <h2 class="title-lg text-white mt-3 mb-4">The Calm</h2>
+            <p class="text-white/80 max-w-lg text-lg">A serene, peaceful and luxurious environment &mdash; from deep-cleansing facials to intensive full-body massages, dedicated entirely to your relaxation.</p>
+          </article>
+        </div>
+        <div class="story-seq__progress">
+          <span class="story-seq__idx">01 / 03</span>
+          <span class="story-seq__bar"><i></i></span>
+        </div>
       </div>
     </div>
   </section>

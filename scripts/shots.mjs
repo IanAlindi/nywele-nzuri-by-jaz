@@ -11,6 +11,10 @@ async function shoot(name, w, h, opts = {}) {
   await page.setViewport({ width: w, height: h, deviceScaleFactor: 1 });
   await page.goto(BASE + (opts.path || "/"), { waitUntil: "networkidle2", timeout: 40000 });
   await new Promise((r) => setTimeout(r, opts.motion ? 2600 : 900));
+  if (opts.scrollSel) {
+    await page.evaluate((s) => { const el = document.querySelector(s); if (el) window.scrollTo(0, el.offsetTop + 10); }, opts.scrollSel);
+    await new Promise((r) => setTimeout(r, 1400));
+  }
   if (opts.selector) {
     await page.evaluate((s) => document.querySelector(s)?.scrollIntoView(), opts.selector);
     await new Promise((r) => setTimeout(r, 1200));
@@ -23,6 +27,8 @@ async function shoot(name, w, h, opts = {}) {
   await page.close();
 }
 
+await shoot("story-desk", 1280, 800, { motion: true, scrollSel: "#story" });
+await shoot("story-mob", 390, 800, { motion: true, scrollSel: "#story" });
 await shoot("desk-motion-hero", 1280, 820, { motion: true });
 await shoot("desk-products", 1280, 820, { path: "/products.html" });
 await shoot("desk-intro", 1280, 820, { selector: "#intro" });

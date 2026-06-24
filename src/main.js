@@ -283,44 +283,38 @@ function initMarquee() {
 function initStory() {
   const story = $("#story");
   if (!story) return;
-  const visuals = $$(".story__visual img", story);
-  const chapters = $$(".story__chapter", story);
-  const dots = $$(".story__dot", story);
-  if (!visuals.length || !chapters.length) return;
+  const pin = $(".story-seq__pin", story);
+  const imgs = $$(".story-seq__bg img", story);
+  const chapters = $$(".story-seq__chapter", story);
+  const idxEl = $(".story-seq__idx", story);
+  const barEl = $(".story-seq__bar i", story);
+  const n = chapters.length;
+  if (!pin || !n) return;
 
   const setActive = (i) => {
-    visuals.forEach((v, k) => v.classList.toggle("is-active", k === i));
-    chapters.forEach((c, k) => {
-      c.classList.toggle("opacity-100", k === i);
-      c.classList.toggle("opacity-40", k !== i);
-    });
-    dots.forEach((d, k) => d.classList.toggle("is-active", k === i));
+    imgs.forEach((im, k) => im.classList.toggle("is-active", k === i));
+    chapters.forEach((c, k) => c.classList.toggle("is-active", k === i));
+    if (idxEl) idxEl.textContent = String(i + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
   };
   setActive(0);
 
-  if (reduceMotion) { visuals[0].classList.add("is-active"); return; }
+  if (reduceMotion) { story.classList.add("story-static"); return; }
 
-  // Chapter crossfade — runs on ALL viewports (mobile uses CSS sticky visual)
-  chapters.forEach((ch, i) => {
-    ScrollTrigger.create({
-      trigger: ch,
-      start: "top center",
-      end: "bottom center",
-      onToggle: (self) => { if (self.isActive) setActive(i); },
-    });
-  });
-
-  // Pin the visual column only on desktop (mobile relies on position: sticky)
-  const mm = gsap.matchMedia();
-  mm.add("(min-width: 768px)", () => {
-    const pin = ScrollTrigger.create({
-      trigger: story,
-      start: "top top",
-      end: "bottom bottom",
-      pin: ".story__visual-wrap",
-      pinSpacing: false,
-    });
-    return () => pin.kill();
+  let active = -1;
+  // One pinned, scrubbed sequence — identical premium effect on mobile & desktop.
+  ScrollTrigger.create({
+    trigger: story,
+    start: "top top",
+    end: () => "+=" + window.innerHeight * n,
+    pin: pin,
+    anticipatePin: 1,
+    scrub: true,
+    invalidateOnRefresh: true,
+    onUpdate: (self) => {
+      const i = Math.min(n - 1, Math.floor(self.progress * n));
+      if (i !== active) { active = i; setActive(i); }
+      if (barEl) gsap.set(barEl, { scaleX: self.progress });
+    },
   });
 }
 
