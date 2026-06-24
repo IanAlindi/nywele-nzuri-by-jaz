@@ -247,9 +247,51 @@
 .loc-row a:hover { color: #fff; }
 .loc-fade { transition: opacity .3s ease; }
 
+/* ---------- Cinematic page transition curtain ---------- */
+.curtain { position: fixed; inset: 0; z-index: 300; background: #0d0b09; transform: translateY(0); display: grid; place-items: center; will-change: transform; }
+.curtain__mark { font-family: theme('fontFamily.serif'); font-size: clamp(30px, 6vw, 56px); color: #fff; opacity: .85; }
+.curtain__mark em { font-style: normal; color: theme('colors.gold.light'); }
+@keyframes curtainOut { to { transform: translateY(-100%); } }
+/* Fallback: if JS never boots, reveal the curtain after a delay so content is never hidden */
+html:not(.js-ready) .curtain { animation: curtainOut .7s cubic-bezier(.22,1,.36,1) 1.4s forwards; }
+
+/* ---------- Open-now pill (shared: panel, footer, locations) ---------- */
+.open-status { display: inline-flex; align-items: center; gap: .5rem; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #cfc7bd; border: 1px solid rgba(216,189,126,.25); border-radius: 999px; padding: .42rem .72rem; white-space: nowrap; }
+.open-status .loc-status__dot { width: 7px; height: 7px; border-radius: 50%; background: #8a8278; }
+.open-status.is-open .loc-status__dot { background: #4fce72; animation: locpulse 2s infinite; }
+
+/* ---------- Gallery lightbox ---------- */
+.lightbox { position: fixed; inset: 0; z-index: 260; background: rgba(8,7,5,.96); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility .4s ease; }
+.lightbox.is-open { opacity: 1; visibility: visible; }
+.lightbox__img { max-width: 88vw; max-height: 82vh; border-radius: 4px; box-shadow: var(--shadow); transform: scale(.95); transition: transform .45s theme('transitionTimingFunction.lux'), opacity .3s ease; }
+.lightbox.is-open .lightbox__img { transform: scale(1); }
+.lightbox__btn { position: absolute; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(216,189,126,.4); background: rgba(13,11,9,.5); color: #efe7d6; display: grid; place-items: center; cursor: pointer; transition: all .25s ease; font-size: 20px; }
+.lightbox__btn:hover { background: theme('colors.gold.DEFAULT'); color: #1a1208; border-color: theme('colors.gold.DEFAULT'); }
+.lightbox__close { top: 1.2rem; right: 1.4rem; }
+.lightbox__nav { top: 50%; transform: translateY(-50%); }
+.lightbox__nav.prev { left: 1.2rem; }
+.lightbox__nav.next { right: 1.2rem; }
+.lightbox__count { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: theme('colors.gold.light'); }
+@media (max-width: 640px) { .lightbox__nav.prev { left: .5rem; } .lightbox__nav.next { right: .5rem; } .lightbox__btn { width: 42px; height: 42px; } }
+
+/* ---------- Contact success + focus glow ---------- */
+.field input:focus, .field select:focus, .field textarea:focus,
+.field-input:focus { box-shadow: 0 0 0 3px rgba(187,149,64,.18); }
+.form-success { display: flex; align-items: center; gap: .6rem; }
+.form-success svg { flex: none; }
+
+/* ---------- About stats ---------- */
+.stat-block .stat-num { line-height: 1; }
+
+/* ---------- Products notify ---------- */
+.notify { display: flex; gap: .5rem; max-width: 420px; margin: 1.5rem auto 0; }
+.notify input { flex: 1; background: var(--cream); border: 1px solid var(--line); border-radius: 2px; padding: .85rem 1rem; color: var(--ink); }
+.notify input:focus { outline: none; border-color: theme('colors.gold.DEFAULT'); box-shadow: 0 0 0 3px rgba(187,149,64,.18); }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1 !important; transform: none !important; }
   .line-mask > * { transform: none !important; }
   .clip-img { clip-path: none !important; }
   .grain { display: none; }
+  .curtain { transform: translateY(-100%) !important; }
 }

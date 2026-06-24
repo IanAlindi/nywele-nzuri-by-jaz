@@ -34,31 +34,47 @@ function initLenis() {
 }
 
 /* ----------------------------------------------------------------
-   Preloader
+   Cinematic page transitions (curtain)
 ---------------------------------------------------------------- */
-function initPreloader(done) {
-  const pre = $(".preloader");
-  if (!pre) { done(); return; }
-  const bar = $(".preloader__bar > span", pre);
-  const pct = $(".preloader__pct", pre);
-  const obj = { v: 0 };
-  gsap.to(obj, {
-    v: 100,
-    duration: reduceMotion ? 0.2 : 1.5,
-    ease: "power2.inOut",
-    onUpdate() {
-      const v = Math.round(obj.v);
-      if (bar) bar.style.width = v + "%";
-      if (pct) pct.textContent = String(v).padStart(2, "0") + "%";
-    },
-    onComplete() {
-      gsap.to(pre, {
-        yPercent: -100,
-        duration: reduceMotion ? 0 : 0.9,
-        ease: "power4.inOut",
-        onComplete() { pre.remove(); done(); },
-      });
-    },
+function revealCurtain() {
+  // Mark JS ready (cancels the CSS fallback reveal) and animate the entrance reveal.
+  document.documentElement.classList.add("js-ready");
+  const curtain = $(".curtain");
+  if (!curtain) return;
+  const mark = $(".curtain__mark", curtain);
+  if (reduceMotion) { gsap.set(curtain, { yPercent: -100 }); return; }
+  const tl = gsap.timeline();
+  tl.to(mark, { opacity: 0, duration: 0.35, ease: "power2.out" }, 0.15)
+    .to(curtain, { yPercent: -100, duration: 0.8, ease: "power4.inOut" }, 0.2)
+    .set(curtain, { yPercent: 100 }); // park below for any future use
+}
+
+function initTransitions() {
+  const curtain = $(".curtain");
+  if (!curtain || reduceMotion) return;
+  const internal = (a) => {
+    const href = a.getAttribute("href") || "";
+    if (a.target === "_blank" || a.hasAttribute("download")) return false;
+    if (/^(#|tel:|mailto:|https?:|wa\.me)/i.test(href) && !href.startsWith(location.origin)) {
+      // allow same-origin absolute, block external/protocol links
+      if (!href.startsWith("/") && !href.endsWith(".html") && href !== "/") return false;
+    }
+    return href.endsWith(".html") || href === "/" || href.startsWith("/");
+  };
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a");
+    if (!a) return;
+    const href = a.getAttribute("href") || "";
+    const isExternal = /^(tel:|mailto:|https?:\/\/|wa\.me)/i.test(href) && !href.startsWith(location.origin + "/");
+    const isHash = href.startsWith("#");
+    if (!href || isHash || isExternal || a.target === "_blank") return;
+    if (!(href.endsWith(".html") || href === "/" || href === "index.html" || href.startsWith("/"))) return;
+    e.preventDefault();
+    const mark = $(".curtain__mark", curtain);
+    const tl = gsap.timeline({ onComplete: () => { window.location.href = href; } });
+    tl.set(curtain, { yPercent: 100 })
+      .to(curtain, { yPercent: 0, duration: 0.55, ease: "power4.inOut" })
+      .to(mark, { opacity: 0.85, duration: 0.3 }, "-=0.25");
   });
 }
 
@@ -368,25 +384,92 @@ function initLocations() {
   }
   pins.forEach((p, i) => p.addEventListener("click", () => select(i)));
   tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+}
 
-  // Live "open now" + Nairobi time
-  const statusEl = panel.querySelector("#locStatus");
-  const statusText = panel.querySelector("#locStatusText");
+/* ----------------------------------------------------------------
+   Shared "Open now · Nairobi time" status (panel, footer, locations)
+---------------------------------------------------------------- */
+function computeOpen() {
+  try {
+    const now = new Date();
+    const time = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Nairobi", hour: "2-digit", minute: "2-digit", hour12: false }).format(now);
+    const wd = new Intl.DateTimeFormat("en-US", { timeZone: "Africa/Nairobi", weekday: "short" }).format(now);
+    const hour = parseInt(time.split(":")[0], 10);
+    return { ok: true, open: wd !== "Sun" && hour >= 8 && hour < 19, time };
+  } catch (e) { return { ok: false }; }
+}
+function initOpenStatus() {
+  const els = $$(".open-status");
+  if (!els.length) return;
   function tick() {
-    try {
-      const now = new Date();
-      const time = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Nairobi", hour: "2-digit", minute: "2-digit", hour12: false }).format(now);
-      const wd = new Intl.DateTimeFormat("en-US", { timeZone: "Africa/Nairobi", weekday: "short" }).format(now);
-      const hour = parseInt(time.split(":")[0], 10);
-      const open = wd !== "Sun" && hour >= 8 && hour < 19;
-      statusEl.classList.toggle("is-open", open);
-      statusText.textContent = (open ? "Open now" : "Closed") + " · Nairobi " + time;
-    } catch (e) {
-      statusText.textContent = "Mon – Sat · 8AM – 7PM";
-    }
+    const s = computeOpen();
+    els.forEach((el) => {
+      const txt = el.querySelector(".open-status__text") || el;
+      if (!s.ok) { txt.textContent = "Mon – Sat · 8AM – 7PM"; return; }
+      el.classList.toggle("is-open", s.open);
+      txt.textContent = (s.open ? "Open now" : "Closed") + " · Nairobi " + s.time;
+    });
   }
   tick();
   setInterval(tick, 30000);
+}
+
+/* ----------------------------------------------------------------
+   Gallery lightbox
+---------------------------------------------------------------- */
+function initLightbox() {
+  const items = $$(".gallery-item img");
+  if (!items.length) return;
+  const srcs = items.map((im) => im.getAttribute("src"));
+  let idx = 0;
+  const box = document.createElement("div");
+  box.className = "lightbox";
+  box.innerHTML =
+    '<button class="lightbox__btn lightbox__close" aria-label="Close">&times;</button>' +
+    '<button class="lightbox__btn lightbox__nav prev" aria-label="Previous">&#8249;</button>' +
+    '<img class="lightbox__img" alt="Gallery image" />' +
+    '<button class="lightbox__btn lightbox__nav next" aria-label="Next">&#8250;</button>' +
+    '<div class="lightbox__count"></div>';
+  document.body.appendChild(box);
+  const imgEl = box.querySelector(".lightbox__img");
+  const countEl = box.querySelector(".lightbox__count");
+  const show = (i) => {
+    idx = (i + srcs.length) % srcs.length;
+    imgEl.style.opacity = "0";
+    const u = srcs[idx];
+    const pre = new Image();
+    pre.onload = () => { imgEl.src = u; imgEl.style.opacity = "1"; };
+    pre.src = u;
+    countEl.textContent = (idx + 1) + " / " + srcs.length;
+  };
+  const open = (i) => { show(i); box.classList.add("is-open"); document.body.classList.add("nav-open"); if (lenis) lenis.stop(); };
+  const close = () => { box.classList.remove("is-open"); document.body.classList.remove("nav-open"); if (lenis) lenis.start(); };
+  items.forEach((im, i) => { im.parentElement.style.cursor = "pointer"; im.parentElement.addEventListener("click", () => open(i)); });
+  box.querySelector(".lightbox__close").addEventListener("click", close);
+  box.querySelector(".next").addEventListener("click", () => show(idx + 1));
+  box.querySelector(".prev").addEventListener("click", () => show(idx - 1));
+  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (!box.classList.contains("is-open")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight") show(idx + 1);
+    else if (e.key === "ArrowLeft") show(idx - 1);
+  });
+}
+
+/* ----------------------------------------------------------------
+   Products notify
+---------------------------------------------------------------- */
+function initNotify() {
+  const form = document.getElementById("notifyForm");
+  if (!form) return;
+  const note = document.getElementById("notifyNote");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (note) { note.hidden = false; note.textContent = "Thank you! We'll let you know the moment our store opens."; }
+    form.reset();
+  });
 }
 
 /* ----------------------------------------------------------------
@@ -424,7 +507,12 @@ function initForm() {
       "Service: " + encodeURIComponent(g("service")) + "%0A" +
       "Location: " + encodeURIComponent(g("branch"));
     if (g("message")) text += "%0ANote: " + encodeURIComponent(g("message"));
-    if (note) { note.hidden = false; note.textContent = "Thank you, " + g("name") + "! Opening WhatsApp to confirm…"; }
+    if (note) {
+      note.hidden = false;
+      note.classList.add("form-success");
+      note.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2f6b34" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Thank you, ' + g("name") + "! Opening WhatsApp to confirm your booking…</span>";
+      gsap.fromTo(note, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+    }
     window.open("https://wa.me/254705186262?text=" + text, "_blank", "noopener");
     form.reset();
   });
@@ -449,6 +537,10 @@ function boot() {
   initStory();
   initLookbook();
   initLocations();
+  initOpenStatus();
+  initLightbox();
+  initNotify();
+  initTransitions();
   initCounters();
   initProgress();
   initForm();
@@ -458,6 +550,8 @@ function boot() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  initPreloader(() => { boot(); initIntro(); });
+  revealCurtain();
+  boot();
+  initIntro();
 });
 window.addEventListener("load", () => ScrollTrigger.refresh());

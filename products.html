@@ -24,8 +24,13 @@
         products — the same ones our stylists trust every day — so you can recreate the Nywele Nzuri experience at home.</p>
       <p class="text-muted mb-8">In the meantime, our full range is available <strong class="text-ink">in-store</strong>
         at both the Junction Mall and Lana Plaza locations. Pop in, or message us and we'll help you find the right products.</p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="https://wa.me/254705186262" target="_blank" rel="noopener" class="btn">Ask about products</a>
+      <form id="notifyForm" class="notify" novalidate>
+        <input type="email" name="email" required placeholder="Your email address" aria-label="Email address" />
+        <button type="submit" class="btn">Notify me</button>
+      </form>
+      <p id="notifyNote" hidden class="text-[#2f6b34] text-sm mt-3"></p>
+      <div class="flex flex-wrap gap-4 justify-center mt-8">
+        <a href="https://wa.me/254705186262" target="_blank" rel="noopener" class="btn btn-outline">Ask about products</a>
         <a href="/locations.html" class="btn btn-outline">Find a location</a>
       </div>
     </div>

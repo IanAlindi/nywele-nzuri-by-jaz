@@ -7,10 +7,10 @@ const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new"
 
 async function shoot(name, w, h, opts = {}) {
   const page = await browser.newPage();
-  await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
+  if (!opts.motion) await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
   await page.setViewport({ width: w, height: h, deviceScaleFactor: 1 });
   await page.goto(BASE + (opts.path || "/"), { waitUntil: "networkidle2", timeout: 40000 });
-  await new Promise((r) => setTimeout(r, 900));
+  await new Promise((r) => setTimeout(r, opts.motion ? 2600 : 900));
   if (opts.selector) {
     await page.evaluate((s) => document.querySelector(s)?.scrollIntoView(), opts.selector);
     await new Promise((r) => setTimeout(r, 1200));
@@ -23,6 +23,8 @@ async function shoot(name, w, h, opts = {}) {
   await page.close();
 }
 
+await shoot("desk-motion-hero", 1280, 820, { motion: true });
+await shoot("desk-products", 1280, 820, { path: "/products.html" });
 await shoot("desk-intro", 1280, 820, { selector: "#intro" });
 await shoot("mob-intro", 390, 844, { selector: "#intro" });
 await shoot("desk-hero", 1280, 820, {});
